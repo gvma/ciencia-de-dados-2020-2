@@ -62,11 +62,54 @@ df['Escolaridade'].replace(to_replace=['ALFABETIZADO SEM CURSOS REGULARES', 'ENS
 # print(df['Ingresso'].describe().mean)
 # print(df['Escolaridade'].describe())
 
-for index, data in df.iterrows():
-  if data['UF'] not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]:
-    df = df.drop(index)
+is_norte = []
+is_nordeste = []
+is_centro_oeste = []
+is_sudeste = []
+is_sul = []
 
-X = df[['UF', 'Ingresso', 'Escolaridade']]
+for index, data in df.iterrows():
+  data['Testando'] = True
+  if data['UF'] not in [0, 1, 2, 3, 4]:
+    df = df.drop(index)
+  if data['UF'] == 0:
+    is_norte.append(True)
+    is_nordeste.append(False)
+    is_centro_oeste.append(False)
+    is_sudeste.append(False)
+    is_sul.append(False)
+  elif data['UF'] == 1:
+    is_norte.append(False)
+    is_nordeste.append(True)
+    is_centro_oeste.append(False)
+    is_sudeste.append(False)
+    is_sul.append(False)
+  elif data['UF'] == 2:
+    is_norte.append(False)
+    is_nordeste.append(False)
+    is_centro_oeste.append(True)
+    is_sudeste.append(False)
+    is_sul.append(False)
+  elif data['UF'] == 3:
+    is_norte.append(False)
+    is_nordeste.append(False)
+    is_centro_oeste.append(False)
+    is_sudeste.append(True)
+    is_sul.append(False)
+  elif data['UF'] == 4:
+    is_norte.append(False)
+    is_nordeste.append(True)
+    is_centro_oeste.append(False)
+    is_sudeste.append(False)
+    is_sul.append(True)
+
+df['Norte'] = is_norte
+df['Nordeste'] = is_nordeste
+df['Centro Oeste'] = is_centro_oeste
+df['Sudeste'] = is_sudeste
+df['Sul'] = is_sul
+
+X = df[['Norte', 'Nordeste', 'Centro Oeste', 'Sudeste', 'Sul', 'Ingresso', 'Escolaridade']]
 y = df [['Val']]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
@@ -75,6 +118,7 @@ model = LinearRegression()
 model.fit(X_train, y_train)
 
 predictions = model.predict(X_test) 
+print(predictions)
 
 # plt.hist(predictions)
 # plt.savefig("result.png")
