@@ -48,9 +48,19 @@ for valor in valor_list:
 
 df['Val'] = valor_list_nova
 
-df['UF'].replace(to_replace=['', 'AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'], value=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], inplace=True)
+# Transformar cada UF em várias colunas, pra pegar true e false
+# df['UF'].replace(to_replace=['', 'AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR', 'RS', 'SC', 'SE', 'SP', 'TO'], value=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], inplace=True)
+df['UF'].replace(to_replace=['AC', 'AP', 'AM', 'PA', 'RO', 'RR', 'TO'], value=0, inplace=True) # 0 para a região norte do país
+df['UF'].replace(to_replace=['MA', 'PI', 'CE', 'RN', 'PE', 'PB', 'SE', 'AL', 'BA'], value=1, inplace=True) # 1 para a região nordeste do país
+df['UF'].replace(to_replace=['MT', 'MS', 'GO', 'DF'], value=2, inplace=True) # 2 para a região centro-oeste do país
+df['UF'].replace(to_replace=['SP', 'RJ', 'ES', 'MG'], value=3, inplace=True) # 3 para a região sudeste do país
+df['UF'].replace(to_replace=['PR', 'RS', 'SC'], value=4, inplace=True) # 4 para a região sul do país
 
-df['Escolaridade'].replace(to_replace=['ALFABETIZADO SEM CURSOS REGULARES', 'DOUTORADO', 'ENSINO FUNDAMENTAL', 'ENSINO FUNDAMENTAL INCOMPLETO', 'ENSINO MEDIO', 'ENSINO SUPERIOR', 'MESTRADO'], value=[0, 1, 2, 3, 4, 5, 6], inplace=True)
+df['Escolaridade'].replace(to_replace=['ALFABETIZADO SEM CURSOS REGULARES', 'ENSINO FUNDAMENTAL INCOMPLETO', 'ENSINO FUNDAMENTAL', 'ENSINO MEDIO', 'ENSINO SUPERIOR', 'MESTRADO', 'DOUTORADO'], value=[0, 1, 2, 3, 4, 5, 6], inplace=True)
+
+# print(df['UF'].describe())
+# print(df['Ingresso'].describe().mean)
+# print(df['Escolaridade'].describe())
 
 for index, data in df.iterrows():
   if data['UF'] not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]:
@@ -64,19 +74,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 model = LinearRegression()
 model.fit(X_train, y_train)
 
-# for index, uf in X_test['UF'].iteritems():
-#   if uf not in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]:
-#     X_test.loc[index, 'UF'] = 0
+predictions = model.predict(X_test) 
 
-#     # X_test.loc.__getitem__(index).__setitem__('UF', 0)
-#     pass
-#   # print(index, uf)
+# plt.hist(predictions)
+# plt.savefig("result.png")
 
-# print(X_test.groupby(X_test['UF']).size())
-
-predictions = model.predict(X_test) # Acurácia do modelo
-
-plt.hist(predictions)
-plt.savefig("result.png")
-
-# sns.regplot(x=y_test[:150], y=predictions[:150])
+# Para o teste de hipótese usar a media e o desvio padrão para cada um dos casos
