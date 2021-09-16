@@ -123,6 +123,8 @@ model.fit(X_train, y_train)
 
 predictions = model.predict(X_test)
 
+print(mean_squared_error(y_test, predictions))
+
 # plt.hist(df['Val'])
 # plt.show()
 
