@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression, GammaRegressor
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
 aposentadoria = pd.read_csv('./dataset/aposentados.012017.csv', encoding='ISO-8859-1', sep=';', index_col=False, names=['Nome', 'CPF', 'Matricula do Servidor', 'Nome do orgao', 'Sigla do orgao', 'Codigo do orgao', 'Cargo', 'Classe', 'Padrao', 'Referencia', 'Nivel', 'Tipo de Aposentadoria', 'Fundamentacao da inatividade', 'Nome diploma legal', 'Data publicacao do diploma legal', 'Ocorrencia de ingresso no servico', 'Ingresso', 'Valor do Rendimento Liquido'])
 
@@ -58,9 +59,6 @@ df['UF'].replace(to_replace=['PR', 'RS', 'SC'], value=4, inplace=True) # 4 para 
 
 df['Escolaridade'].replace(to_replace=['ALFABETIZADO SEM CURSOS REGULARES', 'ENSINO FUNDAMENTAL INCOMPLETO', 'ENSINO FUNDAMENTAL', 'ENSINO MEDIO', 'ENSINO SUPERIOR', 'MESTRADO', 'DOUTORADO'], value=[0, 1, 2, 3, 4, 5, 6], inplace=True)
 
-# print(df['UF'].describe())
-# print(df['Ingresso'].describe().mean)
-# print(df['Escolaridade'].describe())
 
 is_norte = []
 is_nordeste = []
@@ -109,17 +107,37 @@ df['Centro Oeste'] = is_centro_oeste
 df['Sudeste'] = is_sudeste
 df['Sul'] = is_sul
 
+# print(df['UF'].describe())
+# print(df['Escolaridade'].describe())
+# print(df['Ingresso'].describe())
+
+print(df)
+
 X = df[['Norte', 'Nordeste', 'Centro Oeste', 'Sudeste', 'Sul', 'Ingresso', 'Escolaridade']]
 y = df [['Val']]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
 
-model = LinearRegression()
+model = GammaRegressor()
 model.fit(X_train, y_train)
 
-predictions = model.predict(X_test) 
-print(predictions)
+predictions = model.predict(X_test)
 
+# plt.hist(df['Val'])
+# plt.show()
+
+# sns.regplot(y_test, predictions)
+# plt.show()
+
+# Regiao com escolaridade
+testes_regiao_escolaridade = [[True, False, False, False, False, 37.759868, 0], [True, False, False, False, False, 37.759868, 1], [True, False, False, False, False, 37.759868, 2], [True, False, False, False, False, 37.759868, 3], [True, False, False, False, False, 37.759868, 4], [True, False, False, False, False, 37.759868, 5], [True, False, False, False, False, 37.759868, 6], [False, True, False, False, False, 37.759868, 0], [False, True, False, False, False, 37.759868, 1], [False, True, False, False, False, 37.759868, 2], [False, True, False, False, False, 37.759868, 3], [False, True, False, False, False, 37.759868, 4], [False, True, False, False, False, 37.759868, 5], [False, True, False, False, False, 37.759868, 6], [False, False, True, False, False, 37.759868, 0], [False, False, True, False, False, 37.759868, 1], [False, False, True, False, False, 37.759868, 2], [False, False, True, False, False, 37.759868, 3], [False, False, True, False, False, 37.759868, 4], [False, False, True, False, False, 37.759868, 5], [False, False, True, False, False, 37.759868, 6], [False, False, False, True, False, 37.759868, 0], [False, False, False, True, False, 37.759868, 1], [False, False, False, True, False, 37.759868, 2], [False, False, False, True, False, 37.759868, 3], [False, False, False, True, False, 37.759868, 4], [False, False, False, True, False, 37.759868, 5], [False, False, False, True, False, 37.759868, 6], [False, False, False, False, True, 37.759868, 0], [False, False, False, False, True, 37.759868, 1], [False, False, False, False, True, 37.759868, 2], [False, False, False, False, True, 37.759868, 3], [False, False, False, False, True, 37.759868, 4], [False, False, False, False, True, 37.759868, 5], [False, False, False, False, True, 37.759868, 6]]
+predictions = model.predict(testes_regiao_escolaridade)
+
+# Regiao com ingresso
+testes_regiao_ingresso = [[True, False, False, False, False, 10.000000, 0], [True, False, False, False, False, 36.000000, 0], [True, False, False, False, False, 38.000000, 0], [True, False, False, False, False, 41.250000, 0], [True, False, False, False, False, 56.000000, 0], [False, True, False, False, False, 10.000000, 0], [False, True, False, False, False, 36.000000, 0], [False, True, False, False, False, 38.000000, 0], [False, True, False, False, False, 41.250000, 0], [False, True, False, False, False, 56.000000, 0], [False, False, True, False, False, 10.000000, 0], [False, False, True, False, False, 36.000000, 0], [False, False, True, False, False, 38.000000, 0], [False, False, True, False, False, 41.250000, 0], [False, False, True, False, False, 56.000000, 0], [False, False, False, True, False, 10.000000, 0], [False, False, False, True, False, 36.000000, 0], [False, False, False, True, False, 38.000000, 0], [False, False, False, True, False, 41.250000, 0], [False, False, False, True, False, 56.000000, 0], [False, False, False, False, True, 10.000000, 0], [False, False, False, False, True, 36.000000, 0], [False, False, False, False, True, 38.000000, 0], [False, False, False, False, True, 41.250000, 0], [False, False, False, False, True, 56.000000, 0]]
+
+predictions = model.predict(testes_regiao_ingresso)
+print(predictions)
 # plt.hist(predictions)
 # plt.savefig("result.png")
 
