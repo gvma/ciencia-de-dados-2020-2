@@ -132,13 +132,24 @@ predictions = model.predict(X_test)
 # Regiao com escolaridade
 testes_regiao_escolaridade = [[True, False, False, False, False, 37.759868, 0], [True, False, False, False, False, 37.759868, 1], [True, False, False, False, False, 37.759868, 2], [True, False, False, False, False, 37.759868, 3], [True, False, False, False, False, 37.759868, 4], [True, False, False, False, False, 37.759868, 5], [True, False, False, False, False, 37.759868, 6], [False, True, False, False, False, 37.759868, 0], [False, True, False, False, False, 37.759868, 1], [False, True, False, False, False, 37.759868, 2], [False, True, False, False, False, 37.759868, 3], [False, True, False, False, False, 37.759868, 4], [False, True, False, False, False, 37.759868, 5], [False, True, False, False, False, 37.759868, 6], [False, False, True, False, False, 37.759868, 0], [False, False, True, False, False, 37.759868, 1], [False, False, True, False, False, 37.759868, 2], [False, False, True, False, False, 37.759868, 3], [False, False, True, False, False, 37.759868, 4], [False, False, True, False, False, 37.759868, 5], [False, False, True, False, False, 37.759868, 6], [False, False, False, True, False, 37.759868, 0], [False, False, False, True, False, 37.759868, 1], [False, False, False, True, False, 37.759868, 2], [False, False, False, True, False, 37.759868, 3], [False, False, False, True, False, 37.759868, 4], [False, False, False, True, False, 37.759868, 5], [False, False, False, True, False, 37.759868, 6], [False, False, False, False, True, 37.759868, 0], [False, False, False, False, True, 37.759868, 1], [False, False, False, False, True, 37.759868, 2], [False, False, False, False, True, 37.759868, 3], [False, False, False, False, True, 37.759868, 4], [False, False, False, False, True, 37.759868, 5], [False, False, False, False, True, 37.759868, 6]]
 predictions = model.predict(testes_regiao_escolaridade)
+print(predictions)
+print('\n\n\n\n\n')
+plt.hist(predictions)
+plt.savefig("regiao-escolaridade.png")
 
 # Regiao com ingresso
 testes_regiao_ingresso = [[True, False, False, False, False, 10.000000, 0], [True, False, False, False, False, 36.000000, 0], [True, False, False, False, False, 38.000000, 0], [True, False, False, False, False, 41.250000, 0], [True, False, False, False, False, 56.000000, 0], [False, True, False, False, False, 10.000000, 0], [False, True, False, False, False, 36.000000, 0], [False, True, False, False, False, 38.000000, 0], [False, True, False, False, False, 41.250000, 0], [False, True, False, False, False, 56.000000, 0], [False, False, True, False, False, 10.000000, 0], [False, False, True, False, False, 36.000000, 0], [False, False, True, False, False, 38.000000, 0], [False, False, True, False, False, 41.250000, 0], [False, False, True, False, False, 56.000000, 0], [False, False, False, True, False, 10.000000, 0], [False, False, False, True, False, 36.000000, 0], [False, False, False, True, False, 38.000000, 0], [False, False, False, True, False, 41.250000, 0], [False, False, False, True, False, 56.000000, 0], [False, False, False, False, True, 10.000000, 0], [False, False, False, False, True, 36.000000, 0], [False, False, False, False, True, 38.000000, 0], [False, False, False, False, True, 41.250000, 0], [False, False, False, False, True, 56.000000, 0]]
-
 predictions = model.predict(testes_regiao_ingresso)
 print(predictions)
-# plt.hist(predictions)
-# plt.savefig("result.png")
+print('\n\n\n\n\n')
+plt.hist(predictions)
+plt.savefig("regiao-ingresso.png")
+
+# Ingresso com escolaridade
+testes_ingresso_escolaridade = [[True, False, False, False, False, 10.000000, 0], [True, False, False, False, False, 36.000000, 0], [True, False, False, False, False, 38.000000, 0], [True, False, False, False, False, 41.250000, 0], [True, False, False, False, False, 56.000000, 0], [True, False, False, False, False, 10.000000, 1], [True, False, False, False, False, 36.000000, 1], [True, False, False, False, False, 38.000000, 1], [True, False, False, False, False, 41.250000, 1], [True, False, False, False, False, 56.000000, 1], [True, False, False, False, False, 10.000000, 2], [True, False, False, False, False, 36.000000, 2], [True, False, False, False, False, 38.000000, 2], [True, False, False, False, False, 41.250000, 2], [True, False, False, False, False, 56.000000, 2], [True, False, False, False, False, 10.000000, 3], [True, False, False, False, False, 36.000000, 3], [True, False, False, False, False, 38.000000, 3], [True, False, False, False, False, 41.250000, 3], [True, False, False, False, False, 56.000000, 3], [True, False, False, False, False, 10.000000, 4], [True, False, False, False, False, 36.000000, 4], [True, False, False, False, False, 38.000000, 4], [True, False, False, False, False, 41.250000, 4], [True, False, False, False, False, 56.000000, 4], [True, False, False, False, False, 10.000000, 5], [True, False, False, False, False, 36.000000, 5], [True, False, False, False, False, 38.000000, 5], [True, False, False, False, False, 41.250000, 5], [True, False, False, False, False, 56.000000, 5], [True, False, False, False, False, 10.000000, 6], [True, False, False, False, False, 36.000000, 6], [True, False, False, False, False, 38.000000, 6], [True, False, False, False, False, 41.250000, 6], [True, False, False, False, False, 56.000000, 6]]
+predictions = model.predict(testes_ingresso_escolaridade)
+print(predictions)
+plt.hist(predictions)
+plt.savefig("ingresso-escolaridade.png")
 
 # Para o teste de hipótese usar a media e o desvio padrão para cada um dos casos
